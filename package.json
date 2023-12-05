@@ -5,7 +5,7 @@
   "main": ".",
   "scripts": {
     "preinstall": "go get -u",
-    "postinstall": "GOBIN=$GOPATH/bin go install github.com/a-h/templ/cmd/templ@latest && cp $GOPATH/bin/templ ./bin & GOBIN=$GOPATH/bin go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest && cp $GOPATH/bin/sqlc ./bin & GOBIN=$GOPATH/bin go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest && cp $GOPATH/bin/migrate ./bin & GOBIN=$GOPATH/bin go install github.com/cosmtrek/air@latest && cp $GOPATH/bin/air ./bin ",
+    "postinstall": "mkdir ./bin && GOBIN=$GOPATH/bin go install github.com/a-h/templ/cmd/templ@latest && cp $GOPATH/bin/templ ./bin & GOBIN=$GOPATH/bin go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest && cp $GOPATH/bin/sqlc ./bin & GOBIN=$GOPATH/bin go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest && cp $GOPATH/bin/migrate ./bin & GOBIN=$GOPATH/bin go install github.com/cosmtrek/air@latest && cp $GOPATH/bin/air ./bin ",
     "build": "go build -o ./bin/app & npx tailwindcss -i ./views/css/input.css -o ./views/css/output.css --minify",
     "dev": "./bin/air & npx tailwindcss -i ./views/css/input.css -o ./views/css/output.css --watch & ./bin/templ lsp",
     "prod": "npm run build && ./bin/app",
