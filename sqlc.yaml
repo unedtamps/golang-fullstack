@@ -1,0 +1,19 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    schema: "database/migration"
+    queries: "database/query"
+    database:
+      uri: "postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}?sslmode=${DB_SSL}"
+    rules:
+      - "sqlc/db-prepare"
+    gen:
+      go:
+        package: "repository"
+        out: "database/repository"
+        sql_package: "pgx/v5"
+        emit_db_tags: true
+        emit_enum_valid_method: true
+        emit_result_struct_pointers: true
+        emit_interface: true
+        output_querier_file_name: "query.interface.go"
