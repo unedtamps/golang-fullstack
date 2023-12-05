@@ -7,7 +7,7 @@
 - Clone This Repository
 
 ```shell
-git clone https://github.com/ilits2024/ilits2024-backend.git
+git clone https://github.com/unedtamps/golang-fullstack.git
 ```
 
 - Install Dependencies
