@@ -1,6 +1,8 @@
 package controllers
 
-import "github.com/unedtamps/chat-app/api/service"
+import (
+	"github.com/unedtamps/chat-app/api/service"
+)
 
 type Controlers struct {
 	*service.ServiceInterface
@@ -9,3 +11,4 @@ type Controlers struct {
 func NewController(s *service.ServiceInterface) *Controlers {
 	return &Controlers{s}
 }
+

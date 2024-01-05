@@ -19,30 +19,34 @@ import (
 type App struct {
 	route   *e.Echo
 	dBClose func() string
-	addr    string
+	port    string
+	host    string
 }
 
 func LoadServer() *App {
 	dbQuery, dbClose := cfg.NewRepo()
-	addr := cfg.GetSeverEnv().Port
 	services := s.NewService(dbQuery)
 	controlers := c.NewController(services)
 	routes := r.LoadRoute(controlers)
 	return &App{
 		route:   routes,
 		dBClose: dbClose,
-		addr:    addr,
+		port:    cfg.GetSeverEnv().Port,
+		host:    cfg.GetSeverEnv().Host,
 	}
 }
 
 func (app *App) Start() {
 	serve := http.Server{
-		Addr:         fmt.Sprintf(":%s", app.addr),
-		Handler:      app.route,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 10 * time.Second,
+		Addr:           fmt.Sprintf(":%s", app.port),
+		Handler:        app.route,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 50000000,
 	}
-	shotdown := make(chan struct{})
+
+	// grace fullshutdown
+	shutdown := make(chan struct{})
 	go func() {
 		quit := make(chan os.Signal, 1)
 		signal.Notify(quit, os.Interrupt)
@@ -52,13 +56,20 @@ func (app *App) Start() {
 		if err := serve.Shutdown(ctx); err != nil {
 			log.Fatal().Msg(err.Error())
 		}
-		shotdown <- struct{}{}
+		shutdown <- struct{}{}
 	}()
-	log.Info().Msgf("Start Server %s", app.addr)
+
+	if os.Getenv("ENV") == "dev" {
+		log.Info().Msgf("Start Server http://%s:%s", app.host, app.port)
+	} else {
+		log.Info().Msg("Server Start")
+	}
+
 	if err := serve.ListenAndServe(); err != http.ErrServerClosed {
 		log.Fatal().Msgf("Shutting Down Server: %v", err.Error())
 	}
-	<-shotdown
+	<-shutdown
+
 	log.Info().Msg(app.dBClose())
 	log.Info().Msg("Server Down")
 }

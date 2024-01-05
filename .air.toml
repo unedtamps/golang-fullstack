@@ -4,7 +4,7 @@ tmp_dir = "bin"
 [build]
 args_bin = []
 bin = "./bin/app"
-cmd = "go build -o ./bin/app & ./bin/templ generate"
+cmd = "go build -o ./bin/app && ./bin/templ generate"
 delay = 1000
 exclude_dir = []
 exclude_file = []

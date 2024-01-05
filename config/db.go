@@ -3,12 +3,12 @@ package config
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
+	"github.com/rs/zerolog/log"
 	d "github.com/unedtamps/chat-app/database/repository"
 )
 
@@ -24,8 +24,9 @@ type DBConfig struct {
 func GetDBEnv() DBConfig {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Msg(err.Error())
 	}
+
 	DBPort, _ := strconv.ParseUint(os.Getenv("DB_PORT"), 10, 16)
 	return DBConfig{
 		DBHost: os.Getenv("DB_HOST"),
@@ -37,9 +38,17 @@ func GetDBEnv() DBConfig {
 	}
 }
 
-func NewConnection() (*pgxpool.Pool,func() string) {
+func NewConnection() (*pgxpool.Pool, func() string) {
 	c := GetDBEnv()
-	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s", c.DBHost, c.DBPort, c.DBUser, c.DBPass, c.DBName, c.DBSSL)
+	connStr := fmt.Sprintf(
+		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
+		c.DBHost,
+		c.DBPort,
+		c.DBUser,
+		c.DBPass,
+		c.DBName,
+		c.DBSSL,
+	)
 	dbPool, err := pgxpool.New(context.Background(), connStr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect :%v", err.Error())
@@ -47,18 +56,18 @@ func NewConnection() (*pgxpool.Pool,func() string) {
 	}
 	err = dbPool.Ping(context.Background())
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Msg(err.Error())
 	}
-	log.Println("coonect ke db");
-	closeCon := func () string {
-		dbPool.Close()	
+	log.Info().Msg("Success connect to Database")
+	closeCon := func() string {
+		dbPool.Close()
 		return "connection pool closed"
 	}
-	return dbPool,closeCon
+	return dbPool, closeCon
 }
 
-func NewRepo() (d.Querier,func() string) {
+func NewRepo() (d.Querier, func() string) {
 	dbPool, closeCon := NewConnection()
 	db := d.New(dbPool)
-	return db,closeCon
+	return db, closeCon
 }

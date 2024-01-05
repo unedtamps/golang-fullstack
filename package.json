@@ -4,13 +4,14 @@
   "description": "",
   "main": ".",
   "scripts": {
+    "mkdir": "if [ -d ./bin ]; then rm -r ./bin; fi; mkdir ./bin",
     "preinstall": "go get -u",
-    "postinstall": "mkdir ./bin && GOBIN=$GOPATH/bin go install github.com/a-h/templ/cmd/templ@latest && cp $GOPATH/bin/templ ./bin & GOBIN=$GOPATH/bin go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest && cp $GOPATH/bin/sqlc ./bin & GOBIN=$GOPATH/bin go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest && cp $GOPATH/bin/migrate ./bin & GOBIN=$GOPATH/bin go install github.com/cosmtrek/air@latest && cp $GOPATH/bin/air ./bin ",
-    "build": "go build -o ./bin/app & npx tailwindcss -i ./views/css/input.css -o ./views/css/output.css --minify",
-    "dev": "./bin/air & npx tailwindcss -i ./views/css/input.css -o ./views/css/output.css --watch & ./bin/templ lsp",
-    "prod": "npm run build && ./bin/app",
+    "postinstall": "npm run mkdir && GOBIN=$GOPATH/bin go install github.com/a-h/templ/cmd/templ@latest && cp $GOPATH/bin/templ ./bin && GOBIN=$GOPATH/bin go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest && cp $GOPATH/bin/sqlc ./bin && GOBIN=$GOPATH/bin go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest && cp $GOPATH/bin/migrate ./bin && GOBIN=$GOPATH/bin go install github.com/cosmtrek/air@latest && cp $GOPATH/bin/air ./bin",
     "generate:query": "./bin/sqlc generate",
     "generate:templ": "./bin/templ generate",
+    "build": "npm run generate:query && npm run generate:templ && go build -o ./bin/app & npx tailwindcss -i ./views/css/input.css -o ./views/css/output.css --minify",
+    "dev": "npm run generate:query && npm run generate:templ && npx tailwindcss -i ./views/css/input.css -o ./views/css/output.css --watch & ./bin/air",
+    "prod": "npm run build && ./bin/app",
     "migrate": "./bin/migrate -verbose -path=./database/migration/ -database=postgres://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB_NAME?sslmode=$DB_SSL",
     "migrate:create": "./bin/migrate create -seq -ext .sql -dir ./database/migration/"
   },

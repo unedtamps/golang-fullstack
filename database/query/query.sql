@@ -87,4 +87,3 @@ WHERE group_id = $1 LIMIT $2 OFFSET $3;
 -- name: ListMessageAttachments :many
 SELECT * FROM group_attachment
 WHERE id_message = $1;
-
