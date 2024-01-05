@@ -1,6 +1,6 @@
 package service
 
-import d "github.com/unedtamps/chat-app/database/repository"
+import d "github.com/unedtamps/golang-fullstack/internal/repository"
 
 type ServiceInterface struct {
 	User userI
@@ -18,3 +18,4 @@ func NewService(q d.Querier) *ServiceInterface {
 		User: &user_service{q},
 	}
 }
+

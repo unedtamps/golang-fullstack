@@ -2,18 +2,16 @@ package routes
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/unedtamps/chat-app/api/controllers"
+	"github.com/unedtamps/golang-fullstack/src/controllers"
 )
 
 func LoadRoute(c *controllers.Controlers) *echo.Echo {
 	e := echo.New()
 
-	//user route
-	e.GET("/test", c.FindUser)
+	e.Static("/", "public/assets")
 
 	// serve home
-	e.GET("/testing", c.Home)
+	e.GET("/", c.Home)
 
 	return e
 }
-

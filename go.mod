@@ -1,4 +1,4 @@
-module github.com/unedtamps/chat-app
+module github.com/unedtamps/golang-fullstack
 
 go 1.21.3
 

@@ -1,0 +1,15 @@
+package pages
+
+import (
+	"github.com/unedtamps/golang-fullstack/public/web/layouts"
+	"github.com/unedtamps/golang-fullstack/public/web/components"
+)
+
+templ Home() {
+	@layouts.App() {
+		<div class="text-5xl italic text-red-300">
+			<h1 class="bg-blue-400 text-6xl">HI THIS IS Landing Page</h1>
+			@components.Button()
+		</div>
+	}
+}

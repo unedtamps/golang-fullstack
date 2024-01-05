@@ -1,10 +1,9 @@
 package main
 
-import (
-	b "github.com/unedtamps/chat-app/bootstrap"
-)
+import "github.com/unedtamps/golang-fullstack/bootstrap"
 
-func main(){
-	server := b.LoadServer()
+func main() {
+	server := bootstrap.LoadServer()
 	server.Start()
 }
+

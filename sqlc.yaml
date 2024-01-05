@@ -1,8 +1,8 @@
 version: "2"
 sql:
   - engine: "postgresql"
-    schema: "database/migration"
-    queries: "database/query"
+    schema: "internal/migration"
+    queries: "internal/query"
     database:
       uri: "postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}?sslmode=${DB_SSL}"
     rules:

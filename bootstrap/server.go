@@ -10,10 +10,10 @@ import (
 
 	e "github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
-	c "github.com/unedtamps/chat-app/api/controllers"
-	r "github.com/unedtamps/chat-app/api/routes"
-	s "github.com/unedtamps/chat-app/api/service"
-	cfg "github.com/unedtamps/chat-app/config"
+	cfg "github.com/unedtamps/golang-fullstack/config"
+	c "github.com/unedtamps/golang-fullstack/src/controllers"
+	r "github.com/unedtamps/golang-fullstack/src/routes"
+	s "github.com/unedtamps/golang-fullstack/src/service"
 )
 
 type App struct {

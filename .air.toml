@@ -4,11 +4,11 @@ tmp_dir = "bin"
 [build]
 args_bin = []
 bin = "./bin/app"
-cmd = "go build -o ./bin/app && ./bin/templ generate"
+cmd = "./bin/templ generate && go build -o ./bin/app"
 delay = 1000
 exclude_dir = []
 exclude_file = []
-exclude_regex = ["_templ\\.go"]
+exclude_regex = [".*_templ.go"]
 exclude_unchanged = false
 follow_symlink = false
 full_bin = ""

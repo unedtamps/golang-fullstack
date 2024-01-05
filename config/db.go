@@ -9,7 +9,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog/log"
-	d "github.com/unedtamps/chat-app/database/repository"
+	d "github.com/unedtamps/golang-fullstack/internal/repository"
 )
 
 type DBConfig struct {

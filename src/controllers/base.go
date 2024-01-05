@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/unedtamps/chat-app/api/service"
+	"github.com/unedtamps/golang-fullstack/src/service"
 )
 
 type Controlers struct {
@@ -11,4 +11,3 @@ type Controlers struct {
 func NewController(s *service.ServiceInterface) *Controlers {
 	return &Controlers{s}
 }
-
